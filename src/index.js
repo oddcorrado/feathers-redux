@@ -250,7 +250,7 @@ const reduxifyService = (app, route, name = route, options = {}) => {
           debug(`redux:${ON_CREATED}`, action);
 
           const updatedResult = Object.assign({}, state[opts.queryResult], {
-            data: state[opts.queryResult].data.concat(action.payload.data),
+            data: state[opts.queryResult].concat(action.payload.data), // oddarock quick fix to handle create events
             total: state[opts.queryResult].total + 1
           });
 
