@@ -272,7 +272,6 @@ const reduxifyService = (app, route, name = route, options = {}) => {
               return item;
             })
 
-          console.log('updateResult', updatedResult)
           return {
             ...state,
             [opts.queryResult]: updatedResult
