@@ -266,7 +266,7 @@ const reduxifyService = (app, route, name = route, options = {}) => {
           return {
             ...state,
             [opts.queryResult]: Object.assign({}, state[opts.queryResult], {
-              data: state[opts.queryResult].data.map(item => {
+              data: state[opts.queryResult].map(item => { // oddarock quick fix to handle update events
                 if (item[opts.idField] === action.payload.data[opts.idField]) {
                   return action.payload.data;
                 }
