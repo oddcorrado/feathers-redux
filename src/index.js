@@ -262,17 +262,19 @@ const reduxifyService = (app, route, name = route, options = {}) => {
 
         { [ON_UPDATED]: (state, action) => {
           debug(`redux:${ON_UPDATED}`, action);
-
+          
+          const updatedResult = Object.assign({}, state[opts.queryResult], {
+            data: state[opts.queryResult].map(item => { // oddarock quick fix to handle update events
+              /* if (item[opts.idField] === action.payload.data[opts.idField]) {
+                return action.payload.data;
+              } */
+              return item;
+            })
+          })
+          console.log('updateREsult', updatedResult)
           return {
             ...state,
-            [opts.queryResult]: Object.assign({}, state[opts.queryResult], {
-              data: state[opts.queryResult].map(item => { // oddarock quick fix to handle update events
-                if (item[opts.idField] === action.payload.data[opts.idField]) {
-                  return action.payload.data;
-                }
-                return item;
-              })
-            })
+            [opts.queryResult]: updatedResult
           };
         } },
 
