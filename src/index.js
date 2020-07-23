@@ -71,7 +71,7 @@ const reduxifyService = (app, route, name = route, options = {}) => {
   debug(`route ${route}`);
 
   const defaults = {
-    idField: 'id',
+    idField: '_id',
     isError: 'isError',
     isLoading: 'isLoading',
     isSaving: 'isSaving',
@@ -263,15 +263,16 @@ const reduxifyService = (app, route, name = route, options = {}) => {
         { [ON_UPDATED]: (state, action) => {
           debug(`redux:${ON_UPDATED}`, action);
           
-          const updatedResult = Object.assign({}, state[opts.queryResult], {
-            data: state[opts.queryResult].map(item => { // oddarock quick fix to handle update events
-              /* if (item[opts.idField] === action.payload.data[opts.idField]) {
+          var updatedResult = state[opts.queryResult].concat().map(
+            function (item) {
+              // oddarock quick fix to handle update events
+              if (item[opts.idField] === action.payload.data[opts.idField]) {
                 return action.payload.data;
-              } */
+              }
               return item;
             })
-          })
-          console.log('updateREsult', updatedResult)
+
+          console.log('updateResult', updatedResult)
           return {
             ...state,
             [opts.queryResult]: updatedResult
